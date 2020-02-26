@@ -57,16 +57,13 @@ export default function ScrollableTabsButtonAuto() {
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
   };
-  const date1: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[0].dt*1000).getUTCDate();
-  const date2: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[9].dt*1000).getUTCDate();
-  const date3: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[17].dt*1000).getUTCDate();
-  const date4: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[25].dt*1000).getUTCDate();
-  const date5: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[39].dt*1000).getUTCDate();
-  const month1: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[0].dt*1000).getUTCMonth();
-  const month2: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[0].dt*1000).getUTCMonth();
-  const month3: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[0].dt*1000).getUTCMonth();
-  const month4: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[0].dt*1000).getUTCMonth();
-  const month5: number = JSON.stringify(list)==='{}' ? 0 : new Date(list[0].dt*1000).getUTCMonth();
+  const dateMonth: string[]= [];
+if(JSON.stringify(list) !== '[]'){
+  for(let k: number=1 ; k < 40; k= k+8){
+    const date = new Date(list[k].dt*1000);
+    dateMonth.push(date.getUTCDate().toString() + '/' + (date.getUTCMonth()+1).toString());
+  }
+}
 
   return (
     <div className={classes.root}>
@@ -81,29 +78,19 @@ export default function ScrollableTabsButtonAuto() {
           scrollButtons="auto"
           aria-label="scrollable auto tabs example"
         >
-          <Tab label={date1.toString() + '/' + month1.toString()} {...a11yProps(0)} />
-          <Tab label={date2.toString() + '/' + month2.toString()} {...a11yProps(1)} />
-          <Tab label={date3.toString() + '/' + month3.toString()} {...a11yProps(2)} />
-          <Tab label={date4.toString() + '/' + month4.toString()} {...a11yProps(3)} />
-          <Tab label={date5.toString() + '/' + month5.toString()} {...a11yProps(4)} />
+          {dateMonth.map((item: string, index: number) => (
+            <Tab key={item} label={item} {...a11yProps(index)} />
+          ))}
 
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <DateTab list={list} i={0} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <DateTab list={list} i={1} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <DateTab list={list} i={2} />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <DateTab list={list} i={3} />
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <DateTab list={list} i={4} />
-      </TabPanel>
+
+      {dateMonth.map((item: string, index: number) => (
+            <TabPanel key={item} value={value} index={index}>
+              <DateTab list={list} i={index} />
+          </TabPanel>
+          ))}
+      
     </div>
   );
 }
