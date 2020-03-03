@@ -7,6 +7,9 @@ import { makeStyles } from '@material-ui/core/styles';
 const styles = makeStyles({
     bar: {
         padding: 10,
+        display: "flex",
+        justifyContent: "space-between",
+        flexDirection: "inherit"
     }
 });
 
